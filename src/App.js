@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import PrivateRoute from './components/utils/PrivateRoute';
-
+import KeyRedirect from './components/KeyRedirect';
 function App() {
   return (
     <Router>
@@ -18,7 +18,10 @@ function App() {
             </PrivateRoute>
           }
         />
-        
+
+        {/* Ruta pública para resolver el key */}
+        <Route path="/uri/:key" element={<KeyRedirect />} />
+
         <Route path="*" element={<Login />} />
       </Routes>
     </Router>

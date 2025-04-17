@@ -41,7 +41,8 @@ const QRCodeCard = ({
 
       <button
         className="absolute top-2 right-2 text-red-500 hover:text-red-700 text-xl font-bold"
-        onClick={() => onDelete(id)}
+        // onClick={() => onDelete(id)}
+        onClick={() => onDelete({ id, alias, url, short_url, fgColor, bgColor, size, scans })}
         title="Eliminar"
       >
         ×
@@ -53,7 +54,7 @@ const QRCodeCard = ({
         style={{ flexShrink: 0 }}
       >
         <QRCodeImage 
-          value={url} 
+          value={short_url} 
           size={size}        // tamaño de generación (calidad)
           fgColor={fgColor} 
           bgColor={bgColor} 
@@ -73,10 +74,13 @@ const QRCodeCard = ({
       </a>
       <p className="text-sm text-gray-700 mb-3">Scans: {scans}</p>
       <div className="flex gap-3">
-        <button
+        {/* <button
           className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
           onClick={() => onEdit(id)}
         >
+          Editar
+        </button> */}
+        <button onClick={() => onEdit({ id, alias, url, short_url, fgColor, bgColor, size, scans })}>
           Editar
         </button>
         <button
