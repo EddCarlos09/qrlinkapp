@@ -2,12 +2,13 @@
 import React, { useRef, useState } from 'react';
 import QRCodeImage from './QRCodeImage';
 import Toast from './utils/Toast';
+import { X } from 'lucide-react';
 
 const QRCodeCard = ({ 
   id,
-  name, 
+  alias, 
   url, 
-  codeUrl, 
+  short_url, 
   scans, 
   fgColor, 
   bgColor, 
@@ -26,7 +27,7 @@ const QRCodeCard = ({
       .replace('image/png', 'image/octet-stream');
     const downloadLink = document.createElement('a');
     downloadLink.href = pngUrl;
-    downloadLink.download = `${name || 'qr-code'}.png`;
+    downloadLink.download = `${alias || 'qr-code'}.png`;
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
@@ -60,13 +61,13 @@ const QRCodeCard = ({
         />
       </div>
 
-      <h2 className="text-xl font-semibold mt-4 mb-1">{name}</h2>
-      <p className="text-sm text-gray-500 mb-2">{codeUrl}</p>
+      <h2 className="text-xl font-semibold mt-4 mb-1 text-gray-800 w-full text-center truncate">{alias}</h2>
+      <p className="text-sm text-gray-600 w-full text-center break-words overflow-hidden">{short_url}</p>
       <a
         href={url}
         target="_blank"
         rel="noreferrer"
-        className="text-blue-600 text-sm underline mb-3"
+        className="text-blue-600 text-sm underline w-full text-center break-words overflow-hidden"
       >
         {url}
       </a>

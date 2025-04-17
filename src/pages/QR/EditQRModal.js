@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const EditQRModal = ({ isOpen, onClose, onUpdate, qrToEdit }) => {
-  const [name, setName] = useState('');
+  const [alias, setAlias] = useState('');
   const [url, setUrl] = useState('');
   const [fgColor, setFgColor] = useState('#000000');
   const [bgColor, setBgColor] = useState('#ffffff');
@@ -9,17 +9,20 @@ const EditQRModal = ({ isOpen, onClose, onUpdate, qrToEdit }) => {
 
   useEffect(() => {
     if (qrToEdit) {
-      setName(qrToEdit.name);
+      setAlias(qrToEdit.alias);
       setUrl(qrToEdit.url);
+      setBgColor(qrToEdit.bgColor);
+      setFgColor(qrToEdit.fgColor);
+      setSize(qrToEdit.size);
     }
   }, [qrToEdit]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name && url) {
-      onUpdate({ ...qrToEdit, name, url, fgColor, bgColor, size });
+    if (alias && url) {
+      onUpdate({ ...qrToEdit, alias, url, fgColor, bgColor, size });
       // Resetear campos
-      setName('');
+      setAlias('');
       setUrl('');
       setFgColor('#000000');
       setBgColor('#ffffff');
@@ -41,8 +44,8 @@ const EditQRModal = ({ isOpen, onClose, onUpdate, qrToEdit }) => {
             <input
               type="text"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={alias}
+              onChange={(e) => setAlias(e.target.value)}
               required
             />
           </div>

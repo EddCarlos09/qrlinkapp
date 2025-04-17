@@ -1,24 +1,18 @@
 // src/components/Dashboard.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import CreateQRModal from './QR/CreateQRModal';
 import EditQRModal from './QR/EditQRModal';
 import ConfirmDeleteModal from '../components/utils/ConfirmDeleteModal';
 import QRCodeCard from '../components/QRCodeCard';
+import httpService from '../services/httpService';
+import Spinner from '../components/utils/Spinner';
 
 const Dashboard = () => {
-  const [qrCodes, setQrCodes] = useState([
-    {
-      id: 1,
-      name: 'Morant',
-      url: 'https://morant.com.mx',
-      codeUrl: 'qr.codes/cKmY7j',
-      scans: 3,
-      fgColor: '#000000',
-      bgColor: '#ffffff',
-      size: 128,
-    },
-  ]);
+
+
+  const [qrCodes, setQrCodes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -28,11 +22,12 @@ const Dashboard = () => {
 
   // Crear nuevo QR
   const handleCreate = (newQR) => {
+
     const newQrCode = {
-      id: qrCodes.length + 1,
-      name: newQR.name,
+      id: 0,
+      alias: newQR.alias,
       url: newQR.url,
-      codeUrl: `qr.codes/${Math.random().toString(36).substr(2, 6)}`,
+      //codeUrl: `qr.codes/${Math.random().toString(36).substr(2, 6)}`,
       scans: 0,
       fgColor: newQR.fgColor,
       bgColor: newQR.bgColor,
@@ -64,6 +59,24 @@ const Dashboard = () => {
     setIsDeleteModalOpen(false);
     setQrToDelete(null);
   };
+  
+  const obtenerQRCodes = async () => {
+    try {
+      const response = await httpService.get('/qrlink');
+      await setQrCodes(response.data); 
+      console.log(response.data);
+      console.log(qrCodes);
+    } catch (error) {
+      console.error('Error al obtener los códigos QR:', error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    obtenerQRCodes();
+  }, []);
+
 
   return (
     <Layout>
@@ -98,14 +111,18 @@ const Dashboard = () => {
       </div>
 
       {/* Grid de tarjetas */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {qrCodes.map((qr) => (
+
+      {
+        loading ? ( <Spinner />) 
+          : qrCodes.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {qrCodes.map((qr) => (
           <QRCodeCard
             key={qr.id}
             id={qr.id}
-            name={qr.name}
+            alias={qr.alias}
             url={qr.url}
-            codeUrl={qr.codeUrl}
+            short_url={qr.short_url}
             scans={qr.scans}
             fgColor={qr.fgColor}
             bgColor={qr.bgColor}
@@ -114,7 +131,12 @@ const Dashboard = () => {
             onDelete={confirmDelete}
           />
         ))}
-      </div>
+        </div>
+      ) : (
+        <p>No hay códigos QR aún.</p>
+      )}
+
+        
     </Layout>
   );
 };

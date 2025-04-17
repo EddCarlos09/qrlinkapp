@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 const CreateQRModal = ({ isOpen, onClose, onCreate }) => {
-  const [name, setName] = useState('');
+  const [alias, setAlias] = useState('');
   const [url, setUrl] = useState('');
   const [fgColor, setFgColor] = useState('#000000');
   const [bgColor, setBgColor] = useState('#ffffff');
@@ -10,10 +10,10 @@ const CreateQRModal = ({ isOpen, onClose, onCreate }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !url) return;
-    onCreate({ name, url, fgColor, bgColor, size });
+    if (!alias || !url) return;
+    onCreate({ alias, url, fgColor, bgColor, size });
     // Resetear campos
-    setName('');
+    setAlias('');
     setUrl('');
     setFgColor('#000000');
     setBgColor('#ffffff');
@@ -34,8 +34,8 @@ const CreateQRModal = ({ isOpen, onClose, onCreate }) => {
             <input
               type="text"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={alias}
+              onChange={(e) => setAlias(e.target.value)}
               required
             />
           </div>
