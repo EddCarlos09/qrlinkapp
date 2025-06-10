@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ConfirmDeleteModal = ({ isOpen, onCancel, onConfirm, qrName }) => {
+const ConfirmDeleteModal = ({ isOpen, onCancel, onConfirm, elementName }) => {
   if (!isOpen) return null;
 
   return (
@@ -8,7 +8,7 @@ const ConfirmDeleteModal = ({ isOpen, onCancel, onConfirm, qrName }) => {
       <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm text-center">
         <h2 className="text-xl font-semibold mb-4 text-gray-800">¿Eliminar QR?</h2>
         <p className="text-gray-600 mb-6">
-          ¿Estás seguro que deseas eliminar <strong>{qrName}</strong>? Esta acción no se puede deshacer.
+          ¿Estás seguro que deseas eliminar <strong>{elementName}</strong>? Esta acción no se puede deshacer.
         </p>
         <div className="flex justify-center gap-4">
           <button

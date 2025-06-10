@@ -1,4 +1,3 @@
-// src/utils/httpprocesscommon.js
 const BASE_URL = 'https://localhost:7149/api'; // ← cambia esta URL a la de tu backend
 
 export const httpPost = async (endpoint, body) => {
